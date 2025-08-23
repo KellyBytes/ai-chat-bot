@@ -6,7 +6,7 @@ import ChatBotApp from './components/ChatBotApp';
 const App = () => {
   const [isChatting, setIsChatting] = useState(false);
   const [chats, setChats] = useState([]);
-  const [activeChat, setActiveChat] = useState(null);
+  const [activeChatId, setActiveChatId] = useState(null);
 
   const handleStartChat = () => {
     setIsChatting(true);
@@ -25,18 +25,20 @@ const App = () => {
     setIsChatting(false);
   };
 
-  const createNewChat = () => {
+  const createNewChat = (initialMessage = '') => {
     const newChat = {
       id: uuidv4(),
       displayId: `Chat ${new Date().toLocaleDateString(
         'en-US'
       )} ${new Date().toLocaleTimeString()}`,
-      messages: [],
+      messages: initialMessage
+        ? [{ type: 'prompt', text: initialMessage, timestamp: new Date().toLocaleTimeString() }]
+        : [],
     };
 
     const updatedChats = [newChat, ...chats];
     setChats(updatedChats);
-    setActiveChat(newChat.id);
+    setActiveChatId(newChat.id);
   };
 
   return (
@@ -46,8 +48,8 @@ const App = () => {
           onGoBack={handleGoBack}
           chats={chats}
           setChats={setChats}
-          activeChat={activeChat}
-          setActiveChat={setActiveChat}
+          activeChatId={activeChatId}
+          setActiveChatId={setActiveChatId}
           onNewChat={createNewChat}
         />
       ) : (
