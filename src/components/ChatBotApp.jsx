@@ -15,6 +15,13 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, 
     setMessages(activeChatObj ? activeChatObj.messages : []);
   }, [activeChatId, chats]);
 
+  useEffect(() => {
+    if (activeChatId) {
+      const storedMessages = JSON.parse(localStorage.getItem(activeChatId)) || [];
+      setMessages(storedMessages);
+    }
+  }, [activeChatId]);
+
   const handleEmojiSelect = (emoji) => {
     setInputValue((prevInput) => prevInput + emoji.native);
   };
@@ -38,6 +45,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, 
     } else {
       const updatedMessages = [...messages, newMessage];
       setMessages(updatedMessages);
+      localStorage.setItem(activeChatId, JSON.stringify(updatedMessages));
       setInputValue('');
 
       const updatedChats = chats.map((chat) => {
@@ -48,6 +56,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, 
       });
 
       setChats(updatedChats);
+      localStorage.setItem('chats', JSON.stringify(updatedChats));
 
       setIsTyping(true);
 
@@ -76,6 +85,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, 
 
       const updatedMessagesWithResponse = [...updatedMessages, newResponse];
       setMessages(updatedMessagesWithResponse);
+      localStorage.setItem(activeChatId, JSON.stringify(updatedMessagesWithResponse));
 
       setIsTyping(false);
 
@@ -86,6 +96,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, 
         return chat;
       });
       setChats(updatedChatsWithResponse);
+      localStorage.setItem('chats', JSON.stringify(updatedChatsWithResponse));
     }
   };
 
@@ -103,6 +114,8 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, 
   const handleDeleteChat = (id) => {
     const updatedChats = chats.filter((chat) => chat.id !== id);
     setChats(updatedChats);
+    localStorage.setItem('chats', JSON.stringify(updatedChats));
+    localStorage.removeItem(id);
 
     if (id === activeChatId) {
       const newActiveChatId = updatedChats.length > 0 ? updatedChats[0].id : null;

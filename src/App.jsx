@@ -1,12 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import ChatBotStart from './components/ChatBotStart';
 import ChatBotApp from './components/ChatBotApp';
+import Footer from './components/Footer';
 
 const App = () => {
   const [isChatting, setIsChatting] = useState(false);
   const [chats, setChats] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
+
+  useEffect(() => {
+    const storedChats = JSON.parse(localStorage.getItem('chats') || []);
+    setChats(storedChats);
+
+    if (storedChats.length > 0) {
+      setActiveChatId(storedChats[0].id);
+    }
+  }, []);
 
   const handleStartChat = () => {
     setIsChatting(true);
@@ -38,7 +48,9 @@ const App = () => {
 
     const updatedChats = [newChat, ...chats];
     setChats(updatedChats);
+    localStorage.setItem('chats', JSON.stringify(updatedChats)); // 0: {id: xxx...', displayedId: 'Chat 8/24/2025 2:05:30 PM', messages: {0: {type: 'prompt, text: 'Hi!', timestamp: '2:01:29 PM'}, 1: {type: 'response', ...}}}, 1: {id: 'yyy...', displayedId: ...}
     setActiveChatId(newChat.id);
+    localStorage.setItem(newChat.id, JSON.stringify(newChat.messages)); // 0: {type: 'prompt, text: 'Hi!', timestamp: '2:01:29 PM'}, 1: {type: 'response', ...}
   };
 
   return (
@@ -53,7 +65,10 @@ const App = () => {
           onNewChat={createNewChat}
         />
       ) : (
-        <ChatBotStart onStartChat={handleStartChat} />
+        <div>
+          <ChatBotStart onStartChat={handleStartChat} />
+          <Footer />
+        </div>
       )}
     </div>
   );
