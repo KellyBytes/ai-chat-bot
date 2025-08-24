@@ -161,6 +161,7 @@
   align-items: center;
   box-shadow: 0 -0.2rem 0.5 rgba(0, 0, 0, 0.1);
   padding-right: 5rem;
+  position: relative;
 }
 
 .msg-form i {
@@ -173,6 +174,12 @@
   width: 10rem;
   display: flex;
   justify-content: center;
+}
+
+.picker {
+  position: absolute;
+  bottom: 7rem;
+  left: 8rem;
 }
 
 .msg-input {
