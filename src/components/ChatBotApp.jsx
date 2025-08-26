@@ -62,32 +62,61 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, 
 
       setIsTyping(true);
 
-      const api_key = import.meta.env.VITE_API_KEY;
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${api_key}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o-mini-2024-07-18',
-          messages: [{ role: 'user', content: inputValue }],
-          max_tokens: 500,
-        }),
-      });
+      try {
+        // const api_key = import.meta.env.VITE_API_KEY;
+        // const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //     Authorization: `Bearer ${api_key}`,
+        //   },
+        //   body: JSON.stringify({
+        //     model: 'gpt-4o-mini-2024-07-18',
+        //     messages: [{ role: 'user', content: inputValue }],
+        //     max_tokens: 500,
+        //   }),
+        // });
 
-      const data = await response.json();
-      const chatResponse = data.choices[0].message.content.trim();
+        // const data = await response.json();
+        // const chatResponse = data.choices[0].message.content.trim();
 
-      const newResponse = {
-        type: 'response',
-        text: chatResponse,
-        timestamp: new Date().toLocaleTimeString(),
-      };
+        // const newResponse = {
+        //   type: 'response',
+        //   text: chatResponse,
+        //   timestamp: new Date().toLocaleTimeString(),
+        // };
 
-      const updatedMessagesWithResponse = [...updatedMessages, newResponse];
-      setMessages(updatedMessagesWithResponse);
-      localStorage.setItem(activeChatId, JSON.stringify(updatedMessagesWithResponse));
+        const res = await fetch('/.netlify/functions/fetchData', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ inputValue }),
+        });
+
+        const data = await res.json();
+
+        const newResponse = {
+          type: 'response',
+          text: data.chatResponse,
+          timestamp: new Date().toLocaleTimeString(),
+        };
+
+        const updatedMessagesWithResponse = [...updatedMessages, newResponse];
+        setMessages(updatedMessagesWithResponse);
+        localStorage.setItem(activeChatId, JSON.stringify(updatedMessagesWithResponse));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        const errorMessage = {
+          type: 'response',
+          text: 'An error occurred',
+          timestamp: new Date().toLocaleTimeString(),
+        };
+
+        const updatedMessagesWithResponse = [...updatedMessages, errorMessage];
+        setMessages(updatedMessagesWithResponse);
+        localStorage.setItem(activeChatId, JSON.stringify(updatedMessagesWithResponse));
+      }
 
       setIsTyping(false);
 

@@ -52,6 +52,7 @@ body::-webkit-scrollbar {
 
 .theme-switcher {
   text-align: right;
+  padding-top: 0.5rem;
   padding-right: 2rem;
   background-color: var(--color-bg-secondary);
   flex: 0 0 auto;
