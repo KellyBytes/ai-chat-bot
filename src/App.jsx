@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ChatBotStart from './components/ChatBotStart';
 import ChatBotApp from './components/ChatBotApp';
 import Footer from './components/Footer';
+import ThemeProvider from './components/ThemeProvider';
 
 const App = () => {
   const [isChatting, setIsChatting] = useState(false);
@@ -54,23 +55,25 @@ const App = () => {
   };
 
   return (
-    <div className="container">
-      {isChatting ? (
-        <ChatBotApp
-          onGoBack={handleGoBack}
-          chats={chats}
-          setChats={setChats}
-          activeChatId={activeChatId}
-          setActiveChatId={setActiveChatId}
-          onNewChat={createNewChat}
-        />
-      ) : (
-        <div>
-          <ChatBotStart onStartChat={handleStartChat} />
-          <Footer />
-        </div>
-      )}
-    </div>
+    <ThemeProvider>
+      <div className="container">
+        {isChatting ? (
+          <ChatBotApp
+            onGoBack={handleGoBack}
+            chats={chats}
+            setChats={setChats}
+            activeChatId={activeChatId}
+            setActiveChatId={setActiveChatId}
+            onNewChat={createNewChat}
+          />
+        ) : (
+          <>
+            <ChatBotStart onStartChat={handleStartChat} />
+            <Footer />
+          </>
+        )}
+      </div>
+    </ThemeProvider>
   );
 };
 
