@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 export async function handler(event, context) {
   try {
     // Get API key from Environmental Variables

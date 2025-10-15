@@ -180,31 +180,31 @@
   font-family: "Exo 2", sans-serif;
   font-size: 1.6rem;
   color: var(--color-text-secondary);
+  background-color: transparent;
   margin-top: auto;
   margin-bottom: -3rem;
 }
 
 .msg-form {
   width: 100%;
-  min-height: 10rem;
-  background-color: var(--color-bg-secondary);
+  /* min-height: 8rem; */
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
+  background-color: var(--color-bg-primary);
   box-shadow: 0 -0.2rem 0.5 rgba(0, 0, 0, 0.1);
-  padding-right: 5rem;
+  padding: 2rem;
   position: relative;
 }
 
 .msg-form i {
+  width: 8rem;
   font-size: 2.5rem;
+  text-align: center;
   color: var(--color-text-secondary);
+  background-color: transparent;
   cursor: pointer;
-}
-
-.emoji {
-  width: 10rem;
-  display: flex;
-  justify-content: center;
 }
 
 .picker {
@@ -215,7 +215,7 @@
 
 .msg-input {
   height: 100%;
-  flex-grow: 1;
+  flex: 1;
   background-color: transparent;
   border: none;
   font-size: 1.8rem;
@@ -232,7 +232,7 @@
   opacity: 0;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .chat-app {
     flex-direction: column;
   }
@@ -241,7 +241,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 40%;
+    width: 50%;
     height: 100%;
     transform: translateX(-100%);
     z-index: 10;
@@ -270,14 +270,22 @@
     cursor: pointer;
     position: absolute;
   }
+
+  .msg-form {
+    padding-left: 8rem;
+  }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 640px) {
   .chat-list {
     width: 60%;
   }
 
   .picker {
     left: 1rem;
+  }
+
+  .msg-form {
+    padding-left: 6rem;
   }
 }

@@ -18,19 +18,7 @@ const ChatBotApp = ({
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showChatList, setShowChatList] = useState(false);
   const chatEndRef = useRef(null);
-
-  useEffect(() => {
-    const activeChatObj = chats.find((chat) => chat.id === activeChatId);
-    setMessages(activeChatObj ? activeChatObj.messages : []);
-  }, [activeChatId, chats]);
-
-  useEffect(() => {
-    if (activeChatId) {
-      const storedMessages =
-        JSON.parse(localStorage.getItem(activeChatId)) || [];
-      setMessages(storedMessages);
-    }
-  }, [activeChatId]);
+  const textareaRef = useRef(null);
 
   const handleEmojiSelect = (emoji) => {
     setInputValue((prevInput) => prevInput + emoji.native);
@@ -70,59 +58,56 @@ const ChatBotApp = ({
 
       setIsTyping(true);
 
+      let updatedMessagesWithResponse = [];
+
       try {
         // ----- Comment out below to deploy
-        const api_key = import.meta.env.VITE_API_KEY;
-        const response = await fetch(
-          'https://api.openai.com/v1/chat/completions',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${api_key}`,
-            },
-            body: JSON.stringify({
-              model: 'gpt-4o-mini-2024-07-18',
-              messages: [{ role: 'user', content: inputValue }],
-              max_tokens: 500,
-            }),
-          }
-        );
+        // const api_key = import.meta.env.VITE_API_KEY;
+        // const response = await fetch(
+        //   'https://api.openai.com/v1/chat/completions',
+        //   {
+        //     method: 'POST',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //       Authorization: `Bearer ${api_key}`,
+        //     },
+        //     body: JSON.stringify({
+        //       model: 'gpt-4o-mini-2024-07-18',
+        //       messages: [{ role: 'user', content: inputValue }],
+        //       max_tokens: 500,
+        //     }),
+        //   }
+        // );
 
-        const data = await response.json();
-        const chatResponse = data.choices[0].message.content.trim();
-
-        const newResponse = {
-          type: 'response',
-          text: chatResponse,
-          timestamp: new Date().toLocaleTimeString(),
-        };
-        // ----- Comment out above to deploy
-
-        // ----- Uncomment below to deploy
-        // const res = await fetch('/.netlify/functions/fetchData', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify({ inputValue }),
-        // });
-
-        // const data = await res.json();
+        // const data = await response.json();
+        // const chatResponse = data.choices[0].message.content.trim();
 
         // const newResponse = {
         //   type: 'response',
-        //   text: data.chatResponse,
+        //   text: chatResponse,
         //   timestamp: new Date().toLocaleTimeString(),
         // };
+        // ----- Comment out above to deploy
+
+        // ----- Uncomment below to deploy
+        const res = await fetch('/.netlify/functions/fetchData', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ inputValue }),
+        });
+
+        const data = await res.json();
+
+        const newResponse = {
+          type: 'response',
+          text: data.chatResponse || '(no response)',
+          timestamp: new Date().toLocaleTimeString(),
+        };
         // ----- Uncomment above to deploy
 
-        const updatedMessagesWithResponse = [...updatedMessages, newResponse];
-        setMessages(updatedMessagesWithResponse);
-        localStorage.setItem(
-          activeChatId,
-          JSON.stringify(updatedMessagesWithResponse)
-        );
+        updatedMessagesWithResponse = [...updatedMessages, newResponse];
       } catch (error) {
         console.error('Error fetching data:', error);
         const errorMessage = {
@@ -131,13 +116,14 @@ const ChatBotApp = ({
           timestamp: new Date().toLocaleTimeString(),
         };
 
-        const updatedMessagesWithResponse = [...updatedMessages, errorMessage];
-        setMessages(updatedMessagesWithResponse);
-        localStorage.setItem(
-          activeChatId,
-          JSON.stringify(updatedMessagesWithResponse)
-        );
+        updatedMessagesWithResponse = [...updatedMessages, errorMessage];
       }
+
+      setMessages(updatedMessagesWithResponse);
+      localStorage.setItem(
+        activeChatId,
+        JSON.stringify(updatedMessagesWithResponse)
+      );
 
       setIsTyping(false);
 
@@ -152,6 +138,7 @@ const ChatBotApp = ({
     }
   };
 
+  // Enter > send, shift + Enter > new line
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -176,6 +163,25 @@ const ChatBotApp = ({
     }
   };
 
+  const handleInput = () => {
+    const textarea = textareaRef.current;
+    textarea.style.height = 'auto'; // Reset
+    textarea.style.height = `${textarea.scrollHeight}px`; // Adjust height
+  };
+
+  useEffect(() => {
+    const activeChatObj = chats.find((chat) => chat.id === activeChatId);
+    setMessages(activeChatObj ? activeChatObj.messages : []);
+  }, [activeChatId, chats]);
+
+  useEffect(() => {
+    if (activeChatId) {
+      const storedMessages =
+        JSON.parse(localStorage.getItem(activeChatId)) || [];
+      setMessages(storedMessages);
+    }
+  }, [activeChatId]);
+
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -186,7 +192,7 @@ const ChatBotApp = ({
         <div className="chat-list-header">
           <h2>Chat List</h2>
           <i
-            className="bx bx-edit-alt new-chat"
+            className="new-chat bx bx-edit-alt"
             onClick={() => onNewChat()}
           ></i>
           <i
@@ -233,7 +239,7 @@ const ChatBotApp = ({
         </div>
         <form className="msg-form" onSubmit={(e) => e.preventDefault()}>
           <i
-            className="fa-solid fa-face-smile emoji"
+            className="emoji fa-solid fa-face-smile"
             onClick={() => setShowEmojiPicker((prev) => !prev)}
           ></i>
           {showEmojiPicker && (
@@ -241,14 +247,16 @@ const ChatBotApp = ({
               <Picker data={data} onEmojiSelect={handleEmojiSelect} />
             </div>
           )}
-          <input
-            type="text"
+          <textarea
+            ref={textareaRef}
             className="msg-input"
-            placeholder="Type a message..."
             value={inputValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             onFocus={() => setShowEmojiPicker(false)}
+            onInput={handleInput}
+            rows="1"
+            placeholder="Type a message..."
           />
           <i className="fa-solid fa-paper-plane" onClick={sendMessage}></i>
         </form>

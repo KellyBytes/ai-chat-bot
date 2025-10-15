@@ -22,7 +22,7 @@ const ChatBotStart = ({ onStartChat }) => {
           placeholder="Type something..."
         />
       </form>
-      <button className="start-page-btn" onClick={onStartChat}>
+      <button className="start-page-btn" onClick={() => onStartChat()}>
         Start Chat
       </button>
     </div>
