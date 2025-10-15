@@ -4,7 +4,14 @@ import Picker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
 import FormatResponse from './FormatResponse';
 
-const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, onNewChat }) => {
+const ChatBotApp = ({
+  onGoBack,
+  chats,
+  setChats,
+  activeChatId,
+  setActiveChatId,
+  onNewChat,
+}) => {
   const [inputValue, setInputValue] = useState('');
   const [messages, setMessages] = useState(chats[0]?.messages || []);
   const [isTyping, setIsTyping] = useState(false);
@@ -19,7 +26,8 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, 
 
   useEffect(() => {
     if (activeChatId) {
-      const storedMessages = JSON.parse(localStorage.getItem(activeChatId)) || [];
+      const storedMessages =
+        JSON.parse(localStorage.getItem(activeChatId)) || [];
       setMessages(storedMessages);
     }
   }, [activeChatId]);
@@ -63,48 +71,58 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, 
       setIsTyping(true);
 
       try {
-        // const api_key = import.meta.env.VITE_API_KEY;
-        // const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     Authorization: `Bearer ${api_key}`,
-        //   },
-        //   body: JSON.stringify({
-        //     model: 'gpt-4o-mini-2024-07-18',
-        //     messages: [{ role: 'user', content: inputValue }],
-        //     max_tokens: 500,
-        //   }),
-        // });
+        // ----- Comment out below to deploy
+        const api_key = import.meta.env.VITE_API_KEY;
+        const response = await fetch(
+          'https://api.openai.com/v1/chat/completions',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${api_key}`,
+            },
+            body: JSON.stringify({
+              model: 'gpt-4o-mini-2024-07-18',
+              messages: [{ role: 'user', content: inputValue }],
+              max_tokens: 500,
+            }),
+          }
+        );
 
-        // const data = await response.json();
-        // const chatResponse = data.choices[0].message.content.trim();
-
-        // const newResponse = {
-        //   type: 'response',
-        //   text: chatResponse,
-        //   timestamp: new Date().toLocaleTimeString(),
-        // };
-
-        const res = await fetch('/.netlify/functions/fetchData', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ inputValue }),
-        });
-
-        const data = await res.json();
+        const data = await response.json();
+        const chatResponse = data.choices[0].message.content.trim();
 
         const newResponse = {
           type: 'response',
-          text: data.chatResponse,
+          text: chatResponse,
           timestamp: new Date().toLocaleTimeString(),
         };
+        // ----- Comment out above to deploy
+
+        // ----- Uncomment below to deploy
+        // const res = await fetch('/.netlify/functions/fetchData', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({ inputValue }),
+        // });
+
+        // const data = await res.json();
+
+        // const newResponse = {
+        //   type: 'response',
+        //   text: data.chatResponse,
+        //   timestamp: new Date().toLocaleTimeString(),
+        // };
+        // ----- Uncomment above to deploy
 
         const updatedMessagesWithResponse = [...updatedMessages, newResponse];
         setMessages(updatedMessagesWithResponse);
-        localStorage.setItem(activeChatId, JSON.stringify(updatedMessagesWithResponse));
+        localStorage.setItem(
+          activeChatId,
+          JSON.stringify(updatedMessagesWithResponse)
+        );
       } catch (error) {
         console.error('Error fetching data:', error);
         const errorMessage = {
@@ -115,7 +133,10 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, 
 
         const updatedMessagesWithResponse = [...updatedMessages, errorMessage];
         setMessages(updatedMessagesWithResponse);
-        localStorage.setItem(activeChatId, JSON.stringify(updatedMessagesWithResponse));
+        localStorage.setItem(
+          activeChatId,
+          JSON.stringify(updatedMessagesWithResponse)
+        );
       }
 
       setIsTyping(false);
@@ -149,7 +170,8 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, 
     localStorage.removeItem(id);
 
     if (id === activeChatId) {
-      const newActiveChatId = updatedChats.length > 0 ? updatedChats[0].id : null;
+      const newActiveChatId =
+        updatedChats.length > 0 ? updatedChats[0].id : null;
       setActiveChatId(newActiveChatId);
     }
   };
@@ -163,13 +185,21 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, 
       <div className={`chat-list ${showChatList ? 'show' : ''}`}>
         <div className="chat-list-header">
           <h2>Chat List</h2>
-          <i className="bx bx-edit-alt new-chat" onClick={() => onNewChat()}></i>
-          <i className="bx bx-x-circle hide-chat-icon" onClick={() => setShowChatList(false)}></i>
+          <i
+            className="bx bx-edit-alt new-chat"
+            onClick={() => onNewChat()}
+          ></i>
+          <i
+            className="bx bx-x-circle hide-chat-icon"
+            onClick={() => setShowChatList(false)}
+          ></i>
         </div>
         {chats.map((chat) => (
           <div
             key={chat.id}
-            className={`chat-list-item ${chat.id === activeChatId ? 'active' : ''}`}
+            className={`chat-list-item ${
+              chat.id === activeChatId ? 'active' : ''
+            }`}
             onClick={() => handleSelectChat(chat.id)}
           >
             <h4>{chat.displayId}</h4>
@@ -191,7 +221,10 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChatId, setActiveChatId, 
         </div>
         <div className="chat">
           {messages.map((msg, index) => (
-            <div key={index} className={msg.type === 'prompt' ? 'prompt' : 'response'}>
+            <div
+              key={index}
+              className={msg.type === 'prompt' ? 'prompt' : 'response'}
+            >
               <FormatResponse text={msg.text} /> <span>{msg.timestamp}</span>
             </div>
           ))}

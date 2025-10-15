@@ -19,7 +19,7 @@ const App = () => {
     }
   }, []);
 
-  const handleStartChat = () => {
+  const handleStartChat = (initialMessage = '') => {
     setIsChatting(true);
 
     if (chats.length === 0) {
@@ -28,7 +28,7 @@ const App = () => {
       //   messages: [],
       // };
       // setChats([newChat]);
-      createNewChat();
+      createNewChat(initialMessage);
     }
   };
 
@@ -43,7 +43,13 @@ const App = () => {
         'en-US'
       )} ${new Date().toLocaleTimeString()}`,
       messages: initialMessage
-        ? [{ type: 'prompt', text: initialMessage, timestamp: new Date().toLocaleTimeString() }]
+        ? [
+            {
+              type: 'prompt',
+              text: initialMessage,
+              timestamp: new Date().toLocaleTimeString(),
+            },
+          ]
         : [],
     };
 

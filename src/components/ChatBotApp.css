@@ -7,7 +7,7 @@
 .chat-list {
   width: 30%;
   height: 100%;
-  background-color: var(--color-bg-secondary);
+  background-color: var(--color-bg-primary);
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -41,7 +41,7 @@
 .chat-list-item {
   width: 100%;
   height: 6rem;
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg-secondary);
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   display: flex;
@@ -51,22 +51,29 @@
 }
 
 .chat-list-item.active {
-  background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+  background: linear-gradient(
+    45deg,
+    var(--color-primary),
+    var(--color-secondary)
+  );
 }
 
 .chat-list-item h4 {
   font-size: 1.6rem;
   font-weight: 300;
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
+  background-color: transparent;
 }
 
 .chat-list-item.active h4 {
-  color: var(--color-text-ternary);
+  color: var(--color-text-accent);
+  background-color: transparent;
 }
 
 .chat-list-item i {
   font-size: 2.5rem;
   color: #f42f5f;
+  background-color: transparent;
   cursor: pointer;
 }
 
@@ -80,7 +87,7 @@
 .chat-title {
   width: 100%;
   min-height: 6rem;
-  background-color: var(--color-bg-secondary);
+  background-color: var(--color-bg-primary);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -113,7 +120,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 4rem;
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg-secondary);
   overflow-y: auto;
 }
 
@@ -126,22 +133,25 @@
   max-width: 80%;
   padding: 2rem;
   font-size: 1.6rem;
-  /* color: var(--color-text-secondary); */
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
 }
 
 .prompt {
-  /* background: linear-gradient(45deg, var(--color-bg-secondary), var(--color-bg-primary)); */
-  background-color: var(--color-ternary);
-  color: var(--color-text-accent);
+  background-color: var(--color-tertiary);
+  color: var(--color-text-secondary);
   align-self: flex-end;
   border-radius: 3rem 0 3rem 3rem;
   text-align: right;
 }
 
 .response {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  color: var(--color-text-ternary);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  color: var(--color-text-accent);
+  font-weight: 300;
   border-radius: 0 3rem 3rem 3rem;
   align-self: flex-start;
   text-align: left;
@@ -153,14 +163,17 @@
   font-size: 1.4rem;
   display: block;
   margin-top: 0.5rem;
+  background-color: transparent;
 }
 
 .format-response {
   white-space: pre-line;
+  background-color: transparent;
 }
 
 .format-response strong {
   font-weight: bold;
+  background-color: transparent;
 }
 
 .typing {

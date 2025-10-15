@@ -1,32 +1,47 @@
 import { useState, useEffect } from 'react';
 
 function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState('dark');
+  const [darkMode, setDarkMode] = useState(
+    () => JSON.parse(localStorage.getItem('darkMode')) || false
+  );
+  const [isThemeChanging, setIsThemeChanging] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsThemeChanging(true);
+    setDarkMode((prev) => !prev);
+
+    setTimeout(() => {
+      setIsThemeChanging(false);
+    }, 300);
+  };
 
   useEffect(() => {
-    if (theme === 'system') {
-      const media = window.matchMedia('(prefers-color-scheme: dark)');
-      const systemTheme = media.matches ? 'dark' : 'light';
-      document.documentElement.className = systemTheme;
+    const root = document.documentElement;
 
-      const listener = (e) => {
-        document.documentElement.className = e.matches ? 'dark' : 'light';
-      };
-      media.addEventListener('change', listener);
-      return () => media.removeEventListener('change', listener);
-    } else {
-      document.documentElement.className = theme;
-    }
-  }, [theme]);
+    darkMode ? root.classList.add('dark') : root.classList.remove('dark');
+
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
 
   return (
     <div className="theme-wrapper">
-      <div className="theme-switcher">
-        <i className="bx bx-sun" onClick={() => setTheme('light')}></i>
-        <i className="bx bx-moon" onClick={() => setTheme('dark')}></i>
-        <i className="bx bx-laptop" onClick={() => setTheme('system')}></i>
-      </div>
       <div className="content">{children}</div>
+
+      <div className="theme-switcher">
+        <button
+          onClick={toggleDarkMode}
+          aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          className="mode-btns"
+        >
+          <i className="bx bx-sun text-md" />
+          <i className="bx bx-moon text-md" />
+          <span
+            className={`mode-thumb ${
+              darkMode ? 'translate-x-6' : 'translate-x-0'
+            }`}
+          />
+        </button>
+      </div>
     </div>
   );
 }
