@@ -2,13 +2,15 @@ import { useState } from 'react';
 import './ChatBotStart.css';
 
 const ChatBotStart = ({ onStartChat }) => {
-  const [inputValue, setInputValue] = useState('');
+  const [input, setInput] = useState('');
+
+  const handleClick = () => {
+    onStartChat(input.trim() || '');
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!inputValue.trim()) return;
-    onStartChat(inputValue.trim());
-    setInputValue('');
+    handleClick();
   };
 
   return (
@@ -17,13 +19,20 @@ const ChatBotStart = ({ onStartChat }) => {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           placeholder="Type something..."
         />
+        <button type="submit" className="start-page-btn">
+          Start Chats
+        </button>
       </form>
-      <button className="start-page-btn" onClick={() => onStartChat()}>
-        Start Chat
+      <button
+        type="button"
+        className="start-page-btn"
+        onClick={() => onStartChat()}
+      >
+        View Previous Chats
       </button>
     </div>
   );

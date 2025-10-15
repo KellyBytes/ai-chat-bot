@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, act } from 'react';
 import './ChatBotApp.css';
 import Picker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
@@ -11,6 +11,8 @@ const ChatBotApp = ({
   activeChatId,
   setActiveChatId,
   onNewChat,
+  initialMessage,
+  setInitialMessage,
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [messages, setMessages] = useState(chats[0]?.messages || []);
@@ -28,113 +30,89 @@ const ChatBotApp = ({
     setInputValue(e.target.value);
   };
 
-  const sendMessage = async () => {
-    if (inputValue.trim() === '') return;
+  const sendMessage = async (messageParam, chatIdParam) => {
+    const messageToSend = messageParam ?? inputValue;
+    const currentChatId = chatIdParam ?? activeChatId;
 
+    if (!currentChatId || !messageToSend.trim()) return;
+
+    const prevMessages = JSON.parse(localStorage.getItem(currentChatId)) || [];
     const newMessage = {
       type: 'prompt',
-      text: inputValue,
+      text: messageToSend,
       timestamp: new Date().toLocaleTimeString(),
     };
 
-    if (!activeChatId) {
-      onNewChat(inputValue);
-      setInputValue('');
-    } else {
-      const updatedMessages = [...messages, newMessage];
-      setMessages(updatedMessages);
-      localStorage.setItem(activeChatId, JSON.stringify(updatedMessages));
-      setInputValue('');
+    const updatedMessages = [...prevMessages, newMessage];
+    setMessages(updatedMessages);
+    setInputValue('');
+    setIsTyping(true);
 
-      const updatedChats = chats.map((chat) => {
-        if (chat.id === activeChatId) {
-          return { ...chat, messages: updatedMessages };
-        }
-        return chat;
+    const updatedChats = chats.map((chat) =>
+      chat.id === currentChatId ? { ...chat, messages: updatedMessages } : chat
+    );
+
+    setChats(updatedChats);
+    localStorage.setItem(currentChatId, JSON.stringify(updatedMessages));
+    localStorage.setItem('chats', JSON.stringify(updatedChats));
+
+    try {
+      const res = await fetch('/.netlify/functions/fetchData', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ inputValue: messageToSend }),
       });
 
-      setChats(updatedChats);
-      localStorage.setItem('chats', JSON.stringify(updatedChats));
+      const data = await res.json();
 
-      setIsTyping(true);
+      const newResponse = {
+        type: 'response',
+        text: data.chatResponse || '(no response)',
+        timestamp: new Date().toLocaleTimeString(),
+      };
 
-      let updatedMessagesWithResponse = [];
+      const messagesWithResponse = [...updatedMessages, newResponse];
+      setMessages(messagesWithResponse);
 
-      try {
-        // ----- Comment out below to deploy
-        // const api_key = import.meta.env.VITE_API_KEY;
-        // const response = await fetch(
-        //   'https://api.openai.com/v1/chat/completions',
-        //   {
-        //     method: 'POST',
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //       Authorization: `Bearer ${api_key}`,
-        //     },
-        //     body: JSON.stringify({
-        //       model: 'gpt-4o-mini-2024-07-18',
-        //       messages: [{ role: 'user', content: inputValue }],
-        //       max_tokens: 500,
-        //     }),
-        //   }
-        // );
-
-        // const data = await response.json();
-        // const chatResponse = data.choices[0].message.content.trim();
-
-        // const newResponse = {
-        //   type: 'response',
-        //   text: chatResponse,
-        //   timestamp: new Date().toLocaleTimeString(),
-        // };
-        // ----- Comment out above to deploy
-
-        // ----- Uncomment below to deploy
-        const res = await fetch('/.netlify/functions/fetchData', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ inputValue }),
-        });
-
-        const data = await res.json();
-
-        const newResponse = {
-          type: 'response',
-          text: data.chatResponse || '(no response)',
-          timestamp: new Date().toLocaleTimeString(),
-        };
-        // ----- Uncomment above to deploy
-
-        updatedMessagesWithResponse = [...updatedMessages, newResponse];
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        const errorMessage = {
-          type: 'response',
-          text: 'An error occurred',
-          timestamp: new Date().toLocaleTimeString(),
-        };
-
-        updatedMessagesWithResponse = [...updatedMessages, errorMessage];
-      }
-
-      setMessages(updatedMessagesWithResponse);
-      localStorage.setItem(
-        activeChatId,
-        JSON.stringify(updatedMessagesWithResponse)
+      const updatedChatsWithResponse = chats.map((chat) =>
+        chat.id === currentChatId
+          ? {
+              ...chat,
+              messages: messagesWithResponse,
+            }
+          : chat
       );
 
-      setIsTyping(false);
-
-      const updatedChatsWithResponse = chats.map((chat) => {
-        if (chat.id === activeChatId) {
-          return { ...chat, messages: updatedMessagesWithResponse };
-        }
-        return chat;
-      });
       setChats(updatedChatsWithResponse);
+      localStorage.setItem(currentChatId, JSON.stringify(messagesWithResponse));
       localStorage.setItem('chats', JSON.stringify(updatedChatsWithResponse));
+      // updatedMessages.push(newResponse);
+    } catch {
+      const errorMessage = {
+        type: 'response',
+        text: 'Error',
+        timestamp: new Date().toLocaleTimeString(),
+      };
+
+      const messagesWithError = [...updatedMessages, errorMessage];
+      setMessages(messagesWithError);
+
+      const updatedChatsWithError = chats.map((chat) =>
+        chat.id === currentChatId
+          ? {
+              ...chat,
+              messages: messagesWithError,
+            }
+          : chat
+      );
+
+      setChats(updatedChatsWithError);
+      localStorage.setItem(currentChatId, JSON.stringify(messagesWithError));
+      localStorage.setItem('chats', JSON.stringify(updatedChatsWithError));
+    } finally {
+      setIsTyping(false);
     }
   };
 
@@ -185,6 +163,17 @@ const ChatBotApp = ({
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  useEffect(() => {
+    if (!initialMessage || !activeChatId) return;
+
+    const sendInitialMessage = async () => {
+      await sendMessage(initialMessage, activeChatId);
+    };
+
+    sendInitialMessage();
+    setInitialMessage('');
+  }, [initialMessage, activeChatId]);
 
   return (
     <div className="chat-app">

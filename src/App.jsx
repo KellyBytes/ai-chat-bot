@@ -9,26 +9,21 @@ const App = () => {
   const [isChatting, setIsChatting] = useState(false);
   const [chats, setChats] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
+  const [initialMessage, setInitialMessage] = useState('');
 
-  useEffect(() => {
-    const storedChats = JSON.parse(localStorage.getItem('chats') || '[]');
-    setChats(storedChats);
-
-    if (storedChats.length > 0) {
-      setActiveChatId(storedChats[0].id);
-    }
-  }, []);
-
-  const handleStartChat = (initialMessage = '') => {
+  const handleStartChat = async (message = '') => {
     setIsChatting(true);
 
-    if (chats.length === 0) {
-      // const newChat = {
-      //   id: `Chat ${new Date().toLocaleDateString('en-US')} ${new Date().toLocaleTimeString()}`,
-      //   messages: [],
-      // };
-      // setChats([newChat]);
-      createNewChat(initialMessage);
+    if (message.trim()) {
+      const newId = await createNewChat(message);
+      setActiveChatId(newId);
+      setInitialMessage(message);
+    } else {
+      const storedChats = JSON.parse(localStorage.getItem('chats') || '[]');
+      if (storedChats.length > 0) {
+        setActiveChatId(storedChats[0].id);
+      }
+      setInitialMessage('');
     }
   };
 
@@ -42,23 +37,32 @@ const App = () => {
       displayId: `Chat ${new Date().toLocaleDateString(
         'en-US'
       )} ${new Date().toLocaleTimeString()}`,
-      messages: initialMessage
-        ? [
-            {
-              type: 'prompt',
-              text: initialMessage,
-              timestamp: new Date().toLocaleTimeString(),
-            },
-          ]
-        : [],
+      messages: [],
     };
 
-    const updatedChats = [newChat, ...chats];
-    setChats(updatedChats);
-    localStorage.setItem('chats', JSON.stringify(updatedChats)); // 0: {id: xxx...', displayedId: 'Chat 8/24/2025 2:05:30 PM', messages: {0: {type: 'prompt, text: 'Hi!', timestamp: '2:01:29 PM'}, 1: {type: 'response', ...}}}, 1: {id: 'yyy...', displayedId: ...}
-    setActiveChatId(newChat.id);
-    localStorage.setItem(newChat.id, JSON.stringify(newChat.messages)); // 0: {type: 'prompt, text: 'Hi!', timestamp: '2:01:29 PM'}, 1: {type: 'response', ...}
+    return new Promise((resolve) => {
+      setChats((prev) => {
+        const updatedChats = [newChat, ...prev];
+        localStorage.setItem('chats', JSON.stringify(updatedChats)); // 0: {id: xxx...', displayedId: 'Chat 8/24/2025 2:05:30 PM', messages: {0: {type: 'prompt, text: 'Hi!', timestamp: '2:01:29 PM'}, 1: {type: 'response', ...}}}, 1: {id: 'yyy...', displayedId: ...}
+        return updatedChats;
+      });
+
+      setActiveChatId(newChat.id);
+
+      localStorage.setItem(newChat.id, JSON.stringify(newChat.messages)); // 0: {type: 'prompt, text: 'Hi!', timestamp: '2:01:29 PM'}, 1: {type: 'response', ...}
+
+      resolve(newChat.id);
+    });
   };
+
+  useEffect(() => {
+    const storedChats = JSON.parse(localStorage.getItem('chats') || '[]');
+    setChats(storedChats);
+
+    if (storedChats.length > 0) {
+      setActiveChatId(storedChats[0].id);
+    }
+  }, []);
 
   return (
     <ThemeProvider>
@@ -71,6 +75,8 @@ const App = () => {
             activeChatId={activeChatId}
             setActiveChatId={setActiveChatId}
             onNewChat={createNewChat}
+            initialMessage={initialMessage}
+            setInitialMessage={setInitialMessage}
           />
         ) : (
           <>
