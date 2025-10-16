@@ -189,3 +189,9 @@ footer a img {
   aspect-ratio: 1/1;
   border-radius: 50%;
 }
+
+@media (max-width: 640px) {
+  .theme-switcher {
+    left: 1rem;
+  }
+}

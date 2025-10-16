@@ -38,7 +38,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  z-index: 10;
+  z-index: 100;
 }
 
 .chat-list-header h2 {
@@ -49,6 +49,7 @@
 
 .chat-list-header i {
   font-size: 2.5rem;
+  margin-right: 0.5rem;
   cursor: pointer;
 }
 
@@ -227,7 +228,7 @@
 }
 
 .msg-form i {
-  width: 8rem;
+  width: 6rem;
   font-size: 2.5rem;
   text-align: center;
   color: var(--color-text-secondary);
@@ -262,7 +263,7 @@
 
 @media (max-width: 768px) {
   .chat-app {
-    flex-direction: column;
+    /* flex-direction: column; */
   }
 
   .chat-list {
@@ -277,6 +278,19 @@
 
   .chat-list.show {
     transform: translateX(0);
+  }
+
+  .chat-list-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+
+  .chat-list-btns {
+    display: flex;
+    justify-content: center;
   }
 
   .hide-chat-icon {

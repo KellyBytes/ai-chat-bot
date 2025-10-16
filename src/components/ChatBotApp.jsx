@@ -180,14 +180,16 @@ const ChatBotApp = ({
       <div className={`chat-list ${showChatList ? 'show' : ''}`}>
         <div className="chat-list-header">
           <h2>Chat List</h2>
-          <i
-            className="new-chat bx bx-edit-alt"
-            onClick={() => onNewChat()}
-          ></i>
-          <i
-            className="bx bx-x-circle hide-chat-icon"
-            onClick={() => setShowChatList(false)}
-          ></i>
+          <div className="chat-list-btns">
+            <i
+              className="new-chat bx bx-edit-alt"
+              onClick={() => onNewChat()}
+            ></i>
+            <i
+              className="bx bx-x-circle hide-chat-icon"
+              onClick={() => setShowChatList(false)}
+            ></i>
+          </div>
         </div>
         {chats.map((chat) => (
           <div
