@@ -24,7 +24,7 @@ const ChatBotStart = ({ onStartChat }) => {
           placeholder="Type something or click the button..."
         />
         <button type="submit" className="start-page-btn">
-          <i className="bx bx-history"></i>
+          <i className="bx bx-message-dots"></i>
         </button>
       </form>
       {/* <button

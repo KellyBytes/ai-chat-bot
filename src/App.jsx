@@ -37,7 +37,9 @@ const App = () => {
     const newChat = {
       id: uuidv4(),
       displayId: initialMessage
-        ? initialMessage.slice(0, 30)
+        ? initialMessage.length > 20
+          ? initialMessage.slice(0, 20) + '…'
+          : initialMessage
         : `Chat ${new Date().toLocaleDateString(
             'en-US'
           )} ${new Date().toLocaleTimeString()}`,
