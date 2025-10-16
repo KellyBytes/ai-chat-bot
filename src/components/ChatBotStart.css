@@ -1,6 +1,7 @@
 .start-page {
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
+  height: var(--app-height);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,7 +16,7 @@ h1 {
 }
 
 input {
-  width: clamp(31rem, 25.6rem + 27vw, 58rem);
+  width: clamp(26rem, 19.5rem + 32vw, 58rem);
   padding: 0.8rem 1.6rem;
   font-size: 1.8rem;
   border-radius: 0.8rem;

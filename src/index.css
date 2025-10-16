@@ -48,7 +48,7 @@ html {
 html,
 body {
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 html,
@@ -60,6 +60,16 @@ body {
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
+}
+
+:root {
+  --app-height: 100vh;
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --app-height: 100dvh;
+  }
 }
 
 .theme-wrapper {
