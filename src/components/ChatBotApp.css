@@ -92,6 +92,7 @@
 }
 
 .chat-list-item i {
+  margin-left: 0.5rem;
   font-size: 2.5rem;
   color: var(--color-text-accent);
   background-color: transparent;

@@ -8,10 +8,11 @@ const FormatResponse = ({ text }) => {
 
   const formatText = (input) => {
     return input
-      .replace(/###/g, '<strong>✔</strong>')
+      .replace(/^####\s*(.*)$/gm, '<strong>‣‣ $1</strong>')
+      .replace(/^###\s*(.*)$/gm, '<strong>‣ $1</strong>')
       .replace(/(\d+\.)/g, '<br/><strong>$1</strong>')
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\s*-\s*/g, '<br/>');
+      .replace(/(?<![A-Za-z0-9])\s*-\s*(?![A-Za-z0-9])/g, '<br/>');
   };
 
   return (
