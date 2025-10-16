@@ -212,7 +212,7 @@ const ChatBotApp = ({
         <div className="chat-title">
           <h3>Chat with AI</h3>
           <i className="bx bx-menu" onClick={() => setShowChatList(true)}></i>
-          <i className="bx bx-arrow-back arrow" onClick={onGoBack}></i>
+          <i className="arrow bx bx-arrow-back" onClick={onGoBack}></i>
         </div>
         <div className="chat">
           {messages.map((msg, index) => (

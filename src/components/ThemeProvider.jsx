@@ -25,8 +25,6 @@ function ThemeProvider({ children }) {
 
   return (
     <div className="theme-wrapper">
-      <div className="content">{children}</div>
-
       <div className="theme-switcher">
         <button
           onClick={toggleDarkMode}
@@ -42,6 +40,7 @@ function ThemeProvider({ children }) {
           />
         </button>
       </div>
+      <div className="content">{children}</div>
     </div>
   );
 }

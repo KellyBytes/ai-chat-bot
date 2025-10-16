@@ -39,16 +39,21 @@ html {
   font-size: 62.5%;
 }
 
+html,
 body {
-  overflow-y: scroll;
+  height: 100%;
+  overflow: hidden;
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
+html::-webkit-scrollbar,
 body::-webkit-scrollbar {
-  display: none;
+  display: none; /* Chrome, Safari */
 }
 
 .theme-wrapper {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -56,10 +61,11 @@ body::-webkit-scrollbar {
 
 .theme-switcher {
   position: fixed;
-  left: 2rem;
   bottom: 2rem;
+  left: 2rem;
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
+  z-index: 10;
 }
 
 .mode-btns {
@@ -111,19 +117,22 @@ body::-webkit-scrollbar {
 
 .content {
   flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  background-color: var(--color-bg-secondary);
+  overflow-y: auto;
+  position: relative;
 }
 
-.container {
+/* .container {
   width: 100%;
-  /* height: 100%; */
   flex: 1;
   display: flex;
   justify-content: center;
   background-color: var(--color-bg-secondary);
   position: relative;
-}
+} */
 
 /* FOOTER */
 
