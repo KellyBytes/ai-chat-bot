@@ -6,13 +6,17 @@
 
 .chat-list {
   width: 30%;
-  height: calc(100% - 6rem);
+  height: calc(100% - 6.5rem);
   background-color: var(--color-bg-primary);
-  padding: 1rem;
+  padding: 7rem 1rem 0 1rem;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   row-gap: 1rem;
+  position: relative;
+}
+
+.chat-list {
   -ms-overflow-style: none; /* IE, Edge */
   scrollbar-width: none; /* Firefox */
 }
@@ -23,12 +27,18 @@
 }
 
 .chat-list-header {
-  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 6rem;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-secondary);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1rem;
-  color: var(--color-text-secondary);
+  padding: 1rem;
+  z-index: 10;
 }
 
 .chat-list-header h2 {
@@ -56,6 +66,7 @@
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.1);
+  transition: transform 250ms, opacity 250ms ease-in-out;
 }
 
 .chat-list-item.active {
@@ -74,15 +85,20 @@
 }
 
 .chat-list-item.active h4 {
-  color: var(--color-text-accent);
+  color: var(--color-text-active);
   background-color: transparent;
 }
 
 .chat-list-item i {
   font-size: 2.5rem;
-  color: #f42f5f;
+  color: var(--color-text-accent);
   background-color: transparent;
   cursor: pointer;
+}
+
+.chat-list-item:hover {
+  transform: scale(0.98);
+  opacity: 0.7;
 }
 
 .chat-window {
@@ -145,8 +161,12 @@
 }
 
 .prompt {
-  background-color: var(--color-tertiary);
-  color: var(--color-text-secondary);
+  background: linear-gradient(
+    135deg,
+    var(--color-tertiary),
+    var(--color-quaternary)
+  );
+  color: var(--color-text-quaternary);
   align-self: flex-end;
   border-radius: 3rem 0 3rem 3rem;
   text-align: right;
@@ -158,7 +178,7 @@
     var(--color-primary),
     var(--color-secondary)
   );
-  color: var(--color-text-accent);
+  color: var(--color-text-active);
   font-weight: 300;
   border-radius: 0 3rem 3rem 3rem;
   align-self: flex-start;

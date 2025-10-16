@@ -21,19 +21,19 @@ const ChatBotStart = ({ onStartChat }) => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Type something..."
+          placeholder="Type something or click the button..."
         />
         <button type="submit" className="start-page-btn">
-          Start Chats
+          <i className="bx bx-history"></i>
         </button>
       </form>
-      <button
+      {/* <button
         type="button"
         className="start-page-btn"
         onClick={() => onStartChat()}
       >
         View Previous Chats
-      </button>
+      </button> */}
     </div>
   );
 };

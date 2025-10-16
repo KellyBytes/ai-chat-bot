@@ -16,7 +16,7 @@ const App = () => {
     setIsChatting(true);
 
     if (message.trim()) {
-      const newId = await createNewChat(true);
+      const newId = await createNewChat(message, true);
       // const newId = createNewChat();
       setActiveChatId(newId);
       setInitialMessage(message);
@@ -33,29 +33,40 @@ const App = () => {
     setIsChatting(false);
   };
 
-  const createNewChat = (returnPromise = false) => {
+  const createNewChat = (initialMessage = '', returnPromise = false) => {
     const newChat = {
       id: uuidv4(),
-      displayId: `Chat ${new Date().toLocaleDateString(
-        'en-US'
-      )} ${new Date().toLocaleTimeString()}`,
+      displayId: initialMessage
+        ? initialMessage.slice(0, 30)
+        : `Chat ${new Date().toLocaleDateString(
+            'en-US'
+          )} ${new Date().toLocaleTimeString()}`,
       messages: [],
     };
 
+    if (returnPromise) {
+      return new Promise((resolve) => {
+        setChats((prev) => {
+          const updatedChats = [newChat, ...prev];
+          localStorage.setItem('chats', JSON.stringify(updatedChats)); // 0: {id: xxx...', displayedId: 'Chat 8/24/2025 2:05:30 PM', messages: {0: {type: 'prompt, text: 'Hi!', timestamp: '2:01:29 PM'}, 1: {type: 'response', ...}}}, 1: {id: 'yyy...', displayedId: ...}
+          return updatedChats;
+        });
+
+        setActiveChatId(newChat.id);
+        localStorage.setItem(newChat.id, JSON.stringify(newChat.messages)); // 0: {type: 'prompt, text: 'Hi!', timestamp: '2:01:29 PM'}, 1: {type: 'response', ...}
+        resolve(newChat.id);
+      });
+    }
+
     setChats((prev) => {
       const updatedChats = [newChat, ...prev];
-      localStorage.setItem('chats', JSON.stringify(updatedChats)); // 0: {id: xxx...', displayedId: 'Chat 8/24/2025 2:05:30 PM', messages: {0: {type: 'prompt, text: 'Hi!', timestamp: '2:01:29 PM'}, 1: {type: 'response', ...}}}, 1: {id: 'yyy...', displayedId: ...}
-      localStorage.setItem(newChat.id, JSON.stringify(newChat.messages)); // 0: {type: 'prompt, text: 'Hi!', timestamp: '2:01:29 PM'}, 1: {type: 'response', ...}
+      localStorage.setItem('chats', JSON.stringify(updatedChats));
       return updatedChats;
     });
 
     setActiveChatId(newChat.id);
-
-    if (returnPromise) {
-      return Promise.resolve(newChat.id);
-    } else {
-      return newChat.id;
-    }
+    localStorage.setItem(newChat.id, JSON.stringify(newChat.messages));
+    return newChat.id;
   };
 
   useEffect(() => {

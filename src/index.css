@@ -1,29 +1,35 @@
 @import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap");
 
 :root {
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #0f172a;
-  --color-text-tertiary: #1e293b80;
-  --color-text-accent: #f8fafc; /* slate-50 */
-  --color-bg-primary: #f1f5f9;
-  --color-bg-secondary: #e2e8f0;
-  --color-bg-tertiary: #cbd5e19e;
+  --color-text-primary: #0f172a; /* slate-900 */
+  --color-text-secondary: #1e293b; /* slate-800 */
+  --color-text-tertiary: #1e293b80; /* slate-800 + 80*/
+  --color-text-quaternary: #0f172a; /* slate-900 */
+  --color-text-active: #f8fafc; /* slate-50 */
+  --color-text-accent: #e879f9; /* fuchsia-400 */
+  --color-bg-primary: #e2e8f0; /* slate-200 */
+  --color-bg-secondary: #f1f5f9; /* slate-100 */
+  --color-bg-tertiary: #cbd5e19e; /* slate-300 + 9e */
   --color-primary: #a855f7; /* purple-500 */
   --color-secondary: #4f46e5; /* indigo-600*/
-  --color-tertiary: #f1f5f9; /* slate-100 */
+  --color-tertiary: #e2e8f0; /* slate-200 */
+  --color-quaternary: #cbd5e1; /* slate-300 */
 }
 
 .dark {
-  --color-text-primary: #f1f5f9;
-  --color-text-secondary: #e2e8f0;
-  --color-text-tertiary: #cbd5e180;
-  --color-text-accent: #f8fafc; /* slate-50 */
-  --color-bg-primary: #0f172a;
-  --color-bg-secondary: #1e293b;
-  --color-bg-tertiary: #3341559e;
+  --color-text-primary: #f1f5f9; /* slate-100 */
+  --color-text-secondary: #e2e8f0; /* slate-200 */
+  --color-text-tertiary: #cbd5e180; /* slate-300 + 80 */
+  --color-text-quaternary: #334155; /* slate-700 */
+  --color-text-active: #f8fafc; /* slate-50 */
+  --color-text-accent: #d946ef; /* fuchsia-500 */
+  --color-bg-primary: #0f172a; /* slate-900 */
+  --color-bg-secondary: #1e293b; /* slate-800 */
+  --color-bg-tertiary: #3341559e; /* slate-700 + 9e */
   --color-primary: #9333ea; /* purple-600 */
   --color-secondary: #4338ca; /* indigo-700 */
-  --color-tertiary: #475569; /* slate-600 */
+  --color-tertiary: #cbd5e1; /* slate-300 */
+  --color-quaternary: #94a3b8; /* slate-400 */
 }
 
 * {
@@ -43,6 +49,10 @@ html,
 body {
   height: 100%;
   overflow: hidden;
+}
+
+html,
+body {
   -ms-overflow-style: none; /* IE, Edge */
   scrollbar-width: none; /* Firefox */
 }
