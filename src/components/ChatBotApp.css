@@ -68,7 +68,7 @@
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.1);
-  transition: transform 250ms, opacity 250ms ease-in-out;
+  transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .chat-list-item.active {
@@ -100,7 +100,7 @@
 
 .chat-list-item:hover {
   transform: scale(0.98);
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
 .chat-window {
@@ -215,6 +215,32 @@
   margin-bottom: -3rem;
 }
 
+.scroll-top-btn {
+  position: absolute;
+  bottom: 8rem;
+  right: 2rem;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  border: none;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  font-size: 2.5rem;
+  cursor: pointer;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.3);
+  transition: opacity 0.3s ease, transform 0.2s ease;
+  z-index: 50;
+}
+
+.scroll-top-btn i {
+  background-color: transparent;
+}
+
+.scroll-top-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
 .msg-form {
   width: 100%;
   min-height: 6rem;
@@ -263,10 +289,6 @@
 }
 
 @media (max-width: 768px) {
-  .chat-app {
-    /* flex-direction: column; */
-  }
-
   .chat-list {
     position: fixed;
     top: 0;

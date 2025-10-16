@@ -123,16 +123,12 @@ body::-webkit-scrollbar {
 
 .translate-x-6 {
   transform: translateX(2.4rem);
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .translate-x-0 {
   transform: translateX(0);
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .content {
@@ -178,7 +174,7 @@ footer a {
   text-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
   text-decoration: none;
-  transition-duration: all 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 footer p,

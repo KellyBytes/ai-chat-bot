@@ -19,8 +19,10 @@ const ChatBotApp = ({
   const [isTyping, setIsTyping] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showChatList, setShowChatList] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const chatEndRef = useRef(null);
   const textareaRef = useRef(null);
+  const chatContainerRef = useRef(null);
 
   const handleEmojiSelect = (emoji) => {
     setInputValue((prevInput) => prevInput + emoji.native);
@@ -216,7 +218,15 @@ const ChatBotApp = ({
           <i className="bx bx-menu" onClick={() => setShowChatList(true)}></i>
           <i className="arrow bx bx-arrow-back" onClick={onGoBack}></i>
         </div>
-        <div className="chat">
+        <div
+          className="chat"
+          ref={chatContainerRef}
+          onScroll={() => {
+            if (!chatContainerRef.current) return;
+            const { scrollTop } = chatContainerRef.current;
+            setShowScrollTop(scrollTop > 200); // Show when scrolled downward by 200px or more
+          }}
+        >
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -228,6 +238,16 @@ const ChatBotApp = ({
           {isTyping && <div className="typing">Typing...</div>}
           <div ref={chatEndRef}></div>
         </div>
+        {showScrollTop && (
+          <button
+            className="scroll-top-btn"
+            onClick={() =>
+              chatContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+            }
+          >
+            <i className="bx bx-up-arrow-alt"></i>
+          </button>
+        )}
         <form className="msg-form" onSubmit={(e) => e.preventDefault()}>
           <i
             className="emoji fa-solid fa-face-smile"
