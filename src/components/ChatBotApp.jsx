@@ -212,6 +212,14 @@ const ChatBotApp = ({
           </div>
         ))}
       </div>
+
+      {showChatList && (
+        <div
+          className="chat-list-overlay"
+          onClick={() => setShowChatList(false)}
+        ></div>
+      )}
+
       <div className="chat-window">
         <div className="chat-title">
           <h3>Chat with AI</h3>

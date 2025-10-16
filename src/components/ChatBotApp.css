@@ -39,7 +39,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  z-index: 200;
+  z-index: 1000;
 }
 
 .chat-list-header h2 {
@@ -289,6 +289,13 @@
 }
 
 @media (max-width: 768px) {
+  .chat-list-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 800;
+  }
+
   .chat-list {
     position: fixed;
     top: 0;
@@ -296,7 +303,8 @@
     width: 50%;
     height: 100%;
     transform: translateX(-100%);
-    z-index: 20;
+    transition: transform 0.2s ease-in-out;
+    z-index: 900;
   }
 
   .chat-list.show {
