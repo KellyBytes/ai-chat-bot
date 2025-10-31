@@ -115,6 +115,10 @@ const ChatBotApp = ({
       localStorage.setItem('chats', JSON.stringify(updatedChatsWithError));
     } finally {
       setIsTyping(false);
+
+      if (textareaRef.current) {
+        textareaRef.current.style.height = 'auto';
+      }
     }
   };
 
