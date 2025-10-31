@@ -141,6 +141,20 @@ body::-webkit-scrollbar {
   position: relative;
 }
 
+.prompt .format-response a {
+  background-color: transparent;
+  color: var(--color-secondary);
+}
+
+.response .format-response a {
+  background-color: transparent;
+  color: var(--color-tertiary);
+}
+
+.format-response i {
+  background-color: transparent;
+}
+
 /* FOOTER */
 
 footer {
