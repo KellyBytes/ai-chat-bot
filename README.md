@@ -1,36 +1,63 @@
-# AI Chat Bot App
+# [AI Chat Bot App](https://kb-ai-chat-bot.netlify.app "Click to launch the AI Chat Bot App")
 
-## Overview
-A responsive chat application powered by the OpenAI API. It automatically saves chat history, with options to delete conversations if desired. Responses are neatly formatted for readability. Supports light/dark mode.
+### Screenshots
 
-###  Features
-
-- Chat with AI
-- Create/delete chats
-- Save chats in localStorage
-- Emoji picker
-- Automatic scroll to the bottom of long chats
-- Responsive design
-- Light/dark/system mode
-- Formatted responses
-
-### Built with
-- React
-- OpenAI API
+<img src="./public/images/ai-chat-bot-desktop.png" width="600">
+<br/>
+<img src="./public/images/ai-chat-bot-mobile.png" width="600">
 
 ---
 
-## Screenshots
+## 💡 Overview
 
-<strong>Desktop</strong>
-<p>
-<img src="./public/images/ai-chat-bot-1.png" width="250" style="margin-right: 10px;"/>
-<img src="./public/images/ai-chat-bot-2.png" width="250">
-</p>
-<br />
+**AI Chat Bot App** is a fully responsive, single-page web application built with **ReactJS** and integrated with the **OpenAI API**. It allows users to interact with an AI model (GPT-4o-mini), manage multiple chat sessions, and save or delete conversations using **localStorage**. The app includes light/dark theme support, formatted responses for readability, and smooth scrolling for an intuitive user experience. Deployed with **Netlify** using serverless functions.
 
-<strong>Mobile</strong>
-<p>
-<img src="./public/images/ai-chat-bot-3.png" height="200" style="margin-right: 10px;">
-<img src="./public/images/ai-chat-bot-4.png" height="200">
-</p>
+---
+
+## 🚀 Key Features
+
+- Interactive chat interface powered by the **OpenAI GPT-4o-mini** model  
+- Persistent chat storage using **localStorage**  
+- Create and delete chat sessions  
+- **Emoji picker** integration for rich text input  
+- Auto-scroll to the most recent message and “scroll to top” button  
+- **Light/Dark** theme switching using a `ThemeProvider`  
+- Clean and readable response formatting  
+- **Responsive UI** for desktop and mobile devices  
+- Deployed on **Netlify** with serverless **Netlify Functions**
+
+---
+
+## 🧰 Tech Stack
+
+- **Frontend:** ReactJS (Hooks, Components, useState, useEffect, useRef)
+- **Backend / API:** OpenAI API via Netlify Functions
+- **Build & Deployment:** Netlify, Netlify CLI
+- **Other Tools:** UUID, Emoji Picker, Figma, Git, GitHub
+
+---
+
+## 🧠 What I Learned
+
+- Building a **React-based chat interface** and managing dynamic message rendering  
+- Implementing **unique chat IDs** with UUID  
+- Integrating and customizing an **Emoji Picker** component  
+- Managing global themes by wrapping components with a **ThemeProvider**  
+- Applying **useRef** for scroll behavior and DOM manipulation  
+- Writing an **outside click** handler for modal and dropdown interactions  
+- Configuring **Netlify Functions** to connect React apps with the OpenAI API  
+- Running a **local development server** using Netlify CLI  
+
+---
+
+## 📈 Skills Demonstrated
+
+- **Frontend Development:** React, JavaScript (ES6+)
+- **API Integration:** RESTful API requests, serverless architecture
+- **State Management:** Hooks, localStorage persistence 
+- **Responsive Design & Accessibility:** Flexbox, media queries, color themes
+- **Deployment:** Netlify, environment variable configuration
+
+---
+
+[🔼 Back to Top](#ai-chat-bot-app)
