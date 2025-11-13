@@ -1,9 +1,8 @@
-# [AI Chat Bot App](https://kb-ai-chat-bot.netlify.app "Click to launch the AI Chat Bot App")
+# AI Chat Bot App [🔗](https://kb-ai-chat-bot.netlify.app "Click to launch the AI Chat Bot App")
 
 ### Screenshots
 
 <img src="./public/images/ai-chat-bot-desktop.png" width="600">
-<br/>
 <img src="./public/images/ai-chat-bot-mobile.png" width="600">
 
 ---
@@ -12,7 +11,7 @@
 
 **AI Chat Bot App** is a fully responsive, single-page web application built with **ReactJS** and integrated with the **OpenAI API**. It allows users to interact with an AI model (GPT-4o-mini), manage multiple chat sessions, and save or delete conversations using **localStorage**. The app includes light/dark theme support, formatted responses for readability, and smooth scrolling for an intuitive user experience. Deployed with **Netlify** using serverless functions.
 
----
+<br/>
 
 ## 🚀 Key Features
 
@@ -26,18 +25,18 @@
 - **Responsive UI** for desktop and mobile devices  
 - Deployed on **Netlify** with serverless **Netlify Functions**
 
----
+<br/>
 
-## 🧰 Tech Stack
+## 🛠 Tech Stack
 
 - **Frontend:** ReactJS (Hooks, Components, useState, useEffect, useRef)
 - **Backend / API:** OpenAI API via Netlify Functions
 - **Build & Deployment:** Netlify, Netlify CLI
 - **Other Tools:** UUID, Emoji Picker, Figma, Git, GitHub
 
----
+<br/>
 
-## 🧠 What I Learned
+## 🧩 What I Learned
 
 - Building a **React-based chat interface** and managing dynamic message rendering  
 - Implementing **unique chat IDs** with UUID  
@@ -48,9 +47,9 @@
 - Configuring **Netlify Functions** to connect React apps with the OpenAI API  
 - Running a **local development server** using Netlify CLI  
 
----
+<br/>
 
-## 📈 Skills Demonstrated
+## 📈 Skills Demonstrated🎯
 
 - **Frontend Development:** React, JavaScript (ES6+)
 - **API Integration:** RESTful API requests, serverless architecture
@@ -58,6 +57,8 @@
 - **Responsive Design & Accessibility:** Flexbox, media queries, color themes
 - **Deployment:** Netlify, environment variable configuration
 
+<br/>
+
 ---
 
-[🔼 Back to Top](#ai-chat-bot-app)
+[🔼 Back to Top](#ai-chat-bot-app-)
