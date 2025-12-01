@@ -10,7 +10,7 @@ export async function handler(event, context) {
     const inputValue = body.inputValue;
 
     // Send request to OpenAI API
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch('https://api.openai.com/v1/responses', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -18,17 +18,28 @@ export async function handler(event, context) {
       },
       body: JSON.stringify({
         model: 'gpt-5-mini',
-        messages: [{ role: 'user', content: inputValue }],
-        max_tokens: 500,
+        input: inputValue,
+        max_output_tokens: 500,
       }),
     });
 
     const data = await response.json();
-    const chatResponse = data.choices[0].message.content.trim();
+    // console.log('DEBUG raw data:', data);
+
+    const messageItem = data.output.find((o) => o.type === 'message');
+    let text = '(no response)';
+
+    if (messageItem && Array.isArray(messageItem.content)) {
+      text = messageItem.content
+        .map((c) => c.text)
+        .filter(Boolean)
+        .join('\n')
+        .trim();
+    }
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ chatResponse }),
+      body: JSON.stringify({ chatResponse: text }),
     };
   } catch (error) {
     return {
