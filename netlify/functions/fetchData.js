@@ -17,7 +17,7 @@ export async function handler(event, context) {
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini-2024-07-18',
+        model: 'gpt-5-mini',
         messages: [{ role: 'user', content: inputValue }],
         max_tokens: 500,
       }),

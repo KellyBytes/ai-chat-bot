@@ -1,4 +1,4 @@
-# AI Chat Bot App [🔗](https://kb-ai-chat-bot.netlify.app "Click to launch the AI Chat Bot App")
+# AI Chatbot App [➚](https://chatbot.kellybytes.dev "Click to launch the AI Chatbot App")
 
 ### Screenshots
 
@@ -9,13 +9,13 @@
 
 ## 💡 Overview
 
-**AI Chat Bot App** is a fully responsive, single-page web application built with **ReactJS** and integrated with the **OpenAI API**. It allows users to interact with an AI model (GPT-4o-mini), manage multiple chat sessions, and save or delete conversations using **localStorage**. The app includes light/dark theme support, formatted responses for readability, and smooth scrolling for an intuitive user experience. Deployed with **Netlify** using serverless functions.
+**AI Chatbot App** is a fully responsive, single-page web application built with **ReactJS** and integrated with the **OpenAI API**. It allows users to interact with an AI model (GPT-5-mini), manage multiple chat sessions, and save or delete conversations using **localStorage**. The app includes light/dark theme support, formatted responses for readability, and smooth scrolling for an intuitive user experience. Deployed with **Netlify** using serverless functions.
 
 <br/>
 
 ## 🚀 Key Features
 
-- Interactive chat interface powered by the **OpenAI GPT-4o-mini** model  
+- Interactive chat interface powered by the **OpenAI GPT-5-mini** model  
 - Persistent chat storage using **localStorage**  
 - Create and delete chat sessions  
 - **Emoji picker** integration for rich text input  
@@ -59,6 +59,11 @@
 
 <br/>
 
+## ▶ Live Demo
+
+🔗 https://chatbot.kellybytes.dev
+
+
 ---
 
-[🔼 Back to Top](#ai-chat-bot-app-)
+[🔼 Back to Top](#ai-chatbot-app-)
